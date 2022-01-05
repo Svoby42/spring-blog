@@ -5,6 +5,7 @@ import com.example.springblog.entities.User;
 import com.example.springblog.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -15,7 +16,6 @@ public class UserService implements  IUserService{
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
-
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -33,11 +33,12 @@ public class UserService implements  IUserService{
 
     @Override
     public Optional<User> findByUsername(String username) {
-        return Optional.empty();
+        return userRepository.findByUsername(username);
     }
 
     @Override
+    @Transactional
     public void makeAdmin(String username) {
-
+        userRepository.updateUserRole(username, Role.ADMIN);
     }
 }
