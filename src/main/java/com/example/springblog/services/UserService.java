@@ -41,4 +41,10 @@ public class UserService implements  IUserService{
     public void makeAdmin(String username) {
         userRepository.updateUserRole(username, Role.ADMIN);
     }
+
+    @Override
+    @Transactional
+    public void updateUserRights(String username, boolean canPost) {
+        userRepository.updateUserRights(username, canPost);
+    }
 }

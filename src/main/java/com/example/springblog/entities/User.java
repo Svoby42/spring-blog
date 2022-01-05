@@ -30,6 +30,9 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @Column(name = "enabled", nullable = false)
+    private boolean canPost;
+
     @Transient
     private String token;
 

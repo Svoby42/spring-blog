@@ -1,5 +1,6 @@
 package com.example.springblog.controllers;
 
+import com.example.springblog.entities.Article;
 import com.example.springblog.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,25 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping
-    public ResponseEntity getAllArticles(){
+    public ResponseEntity<?> getAllArticles(){
         return new ResponseEntity<>(articleService.findAllArticles(), HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getAllArticlesOfUser(@PathVariable Long userId){
-        return new ResponseEntity<>(articleService.findAllArticlesOfUser(userId), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<?> saveArticle(@RequestBody Article article){
+        return new ResponseEntity<>(articleService.saveArticle(article), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{articleId}")
+    public ResponseEntity<?> updateArticle(@PathVariable Long articleId, @RequestBody Article article){
+        return new ResponseEntity<>(articleService.saveArticle(article), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<?> deleteArticle(@PathVariable Long articleId){
+        articleService.deleteArticle(articleId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
