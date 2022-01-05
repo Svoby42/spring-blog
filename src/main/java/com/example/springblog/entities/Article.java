@@ -23,7 +23,7 @@ public class Article {
     private String topic_content;
 
     @Column(name = "create_time", nullable = false)
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

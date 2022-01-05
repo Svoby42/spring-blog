@@ -58,10 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //každý požadavek bude muset být autentikován, stav se neukládá
 
         http.authorizeRequests()
-                .antMatchers("/api/authentication/sign-in").permitAll()
-                .antMatchers("/api/authentication/sign-up").hasRole(Role.ADMIN.name())
+                .antMatchers("/api/authentication/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/books").permitAll()
-                .antMatchers("/api/books/**").hasRole(Role.ADMIN.name())
                 .antMatchers("/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
                 .anyRequest().authenticated();
 

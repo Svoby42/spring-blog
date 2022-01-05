@@ -3,9 +3,11 @@ package com.example.springblog.services;
 import com.example.springblog.entities.User;
 import com.example.springblog.security.UserPrincipal;
 import com.example.springblog.security.jwt.IJwtProvider;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,4 +36,15 @@ public class AuthenticationService implements IAuthenticationService{
 
         return signInUser;
     }
+
+    @Bean
+    public User getSignedInUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
+        User signedInUser = userPrincipal.getUser();
+
+        return signedInUser;
+    }
+
 }
