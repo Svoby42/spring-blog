@@ -37,7 +37,7 @@ public class AuthenticationService implements IAuthenticationService{
         return signInUser;
     }
 
-    @Bean
+    @Override
     public User getSignedInUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

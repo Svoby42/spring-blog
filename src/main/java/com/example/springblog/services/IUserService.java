@@ -12,6 +12,8 @@ public interface IUserService {
 
     void makeAdmin(String username);
 
-    void updateUserRights(String username, boolean canPost);
+    void makeEditor(String username);
+
+//    void updateUserRights(String username, boolean canPost);
 
 }

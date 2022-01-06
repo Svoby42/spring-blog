@@ -44,7 +44,13 @@ public class UserService implements  IUserService{
 
     @Override
     @Transactional
-    public void updateUserRights(String username, boolean canPost) {
-        userRepository.updateUserRights(username, canPost);
+    public void makeEditor(String username) {
+        userRepository.updateUserRole(username, Role.EDITOR);
     }
+
+//    @Override
+//    @Transactional
+//    public void updateUserRights(String username, boolean canPost) {
+//        userRepository.updateUserRights(username, canPost);
+//    }
 }

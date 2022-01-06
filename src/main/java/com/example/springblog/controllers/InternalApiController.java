@@ -22,9 +22,9 @@ public class InternalApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/posting-rights/{username}")
-    public ResponseEntity<?> setPostingRights(@PathVariable String username, @RequestBody boolean canPost){
-        userService.updateUserRights(username, canPost);
+    @PutMapping("/make-editor/{username}")
+    public ResponseEntity<?> makeEditor(@PathVariable String username, @RequestBody boolean canPost){
+        userService.makeEditor(username);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
