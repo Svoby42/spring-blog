@@ -2,8 +2,6 @@ package com.example.springblog.controllers;
 
 import com.example.springblog.entities.Article;
 import com.example.springblog.entities.User;
-import com.example.springblog.services.ArticleService;
-import com.example.springblog.services.AuthenticationService;
 import com.example.springblog.services.IArticleService;
 import com.example.springblog.services.IAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +46,7 @@ public class ArticleController {
             articleService.deleteArticle(articleId);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>("Article is not yours!", HttpStatus.UNAUTHORIZED);
     }
 
 

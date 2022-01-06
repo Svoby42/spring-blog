@@ -18,6 +18,8 @@ public interface IArticleService {
 
     void deleteArticle(Long id);
 
+    void deleteAllArticlesOfUser(String username);
+
     List<Article> findAllArticles();
 
     List<Article> findAllArticlesOfUser(String username);

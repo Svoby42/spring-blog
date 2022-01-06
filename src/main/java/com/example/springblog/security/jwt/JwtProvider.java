@@ -4,6 +4,7 @@ import com.example.springblog.security.SecurityUtils;
 import com.example.springblog.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -89,7 +90,7 @@ public class JwtProvider implements IJwtProvider{
         return true;
     }
 
-    private Claims extractClaims(HttpServletRequest request){
+    private Claims extractClaims(HttpServletRequest request) {
         String token = SecurityUtils.extractAuthTokenFromRequest(request);
 
         if(token == null){

@@ -20,10 +20,13 @@ public class Article {
     private String title;
 
     @Column(name = "topic_content", length = 10000)             //is nullable
-    private String topic_content;
+    private String topicContent;
 
     @Column(name = "create_time", nullable = false)
     private LocalDateTime createTime;
+
+    @Column(name = "author_name", nullable = true)
+    private String authorName;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

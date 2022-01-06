@@ -1,5 +1,7 @@
 package com.example.springblog.controllers;
 
+import com.example.springblog.entities.Article;
+import com.example.springblog.services.ArticleService;
 import com.example.springblog.services.IArticleService;
 import com.example.springblog.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
+    final
     IArticleService articleService;
 
-    @Autowired
+    final
     IUserService userService;
+
+    public UserController(IArticleService articleService, IUserService userService) {
+        this.articleService = articleService;
+        this.userService = userService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllUsers(){
@@ -29,6 +36,7 @@ public class UserController {
 
     @DeleteMapping("/{username}")
     public ResponseEntity<?> deleteUser(@PathVariable String username){
+        articleService.deleteAllArticlesOfUser(username);
         userService.deleteUser(username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

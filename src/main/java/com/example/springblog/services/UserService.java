@@ -67,6 +67,7 @@ public class UserService implements IUserService{
     }
 
     @Override
+    @Transactional
     public void deleteUser(String username) {
         if(userRepository.findByUsername(username).isPresent()){
             userRepository.deleteByUsername(username);
