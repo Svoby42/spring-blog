@@ -21,6 +21,8 @@ public interface IUserService {
 
     void deleteUser(String username);
 
+    void updateLastLogin(String username);
+
 //    void updateUserRights(String username, boolean canPost);
 
 }

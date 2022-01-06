@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements  IUserService{
+public class UserService implements IUserService{
 
     private final UserRepository userRepository;
 
@@ -33,11 +33,6 @@ public class UserService implements  IUserService{
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
     @Transactional
     public void makeAdmin(String username) {
         userRepository.updateUserRole(username, Role.ADMIN);
@@ -53,6 +48,17 @@ public class UserService implements  IUserService{
     @Transactional
     public void makeUser(String username) {
         userRepository.updateUserRole(username, Role.USER);
+    }
+
+    @Override
+    @Transactional
+    public void updateLastLogin(String username) {
+        userRepository.updateLoginTime(username, LocalDateTime.now());
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override

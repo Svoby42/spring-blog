@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/authentication")
@@ -35,8 +36,14 @@ public class AuthenticationController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestBody User user){
-        user.setLastLoginTime(LocalDateTime.now());
-        return new ResponseEntity<>(authenticationService.signInAndReturnJWT(user), HttpStatus.OK);
+        Optional<User> signedInUser = userService.findByUsername(user.getUsername());
+
+        if(signedInUser.isPresent()){
+            User fullUser = signedInUser.get();
+            userService.updateLastLogin(fullUser.getUsername());
+            return new ResponseEntity<>(authenticationService.signInAndReturnJWT(user), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 }
