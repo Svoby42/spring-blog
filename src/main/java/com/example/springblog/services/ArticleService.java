@@ -4,8 +4,6 @@ import com.example.springblog.entities.Article;
 import com.example.springblog.entities.User;
 import com.example.springblog.repositories.ArticleRepository;
 import com.example.springblog.repositories.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,6 +66,11 @@ public class ArticleService implements IArticleService{
     @Override
     public List<Article> findAllArticlesOfUser(String username) {
         return articleRepository.findAllByUser_Username(username);
+    }
+
+    @Override
+    public List<Article> findAllArticlesOfCategory(String categoryTitle) {
+        return articleRepository.findAllByCategory_Title(categoryTitle);
     }
 
     @Override

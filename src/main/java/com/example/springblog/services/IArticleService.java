@@ -24,6 +24,8 @@ public interface IArticleService {
 
     List<Article> findAllArticlesOfUser(String username);
 
+    List<Article> findAllArticlesOfCategory(String categoryTitle);
+
     List<Article> findAllArticlesOfSignedInUser();
 
 }
