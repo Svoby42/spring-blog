@@ -8,10 +8,9 @@ import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
+    List<Article> findAllByUser_Username(String username);          //find all articles by username
     List<Article> findAllByUser_Id(Long userId);
-
-    List<Article> findByUser_Username(String username);
-
+    List<Article> findByUser_Username(String username);             //find only one article by username
     Optional<Article> findByTitle(String title);
 
 }

@@ -29,8 +29,6 @@ public class ArticleService implements IArticleService{
     @Override
     public Article saveArticle(Article article) {
         User user = this.authenticationService.getSignedInUser();
-        System.out.println(user.getUsername());
-
         article.setCreateTime(LocalDateTime.now());
         article.setUser(user);
         return articleRepository.save(article);
@@ -42,8 +40,18 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
+    public Optional<Article> findArticleById(Long id) {
+        return articleRepository.findById(id);
+    }
+
+    @Override
     public Optional<Article> findArticleByTitle(String title){
         return articleRepository.findByTitle(title);
+    }
+
+    @Override
+    public User findAuthorOfArticle(Long id) {
+        return articleRepository.findById(id).get().getUser();
     }
 
     @Override
@@ -52,8 +60,8 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public List<Article> findAllArticlesOfUser(Long userId) {
-        return articleRepository.findAllByUser_Id(userId);
+    public List<Article> findAllArticlesOfUser(String username) {
+        return articleRepository.findAllByUser_Username(username);
     }
 
     @Override

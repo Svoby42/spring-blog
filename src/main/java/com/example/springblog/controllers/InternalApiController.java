@@ -29,4 +29,13 @@ public class InternalApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/make-user/{username}")                            //i.e. revoke posting rights
+    public ResponseEntity<?> makeUser(@PathVariable String username){
+        userService.makeUser(username);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
 }

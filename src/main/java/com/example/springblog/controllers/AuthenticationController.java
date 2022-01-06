@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
@@ -33,6 +35,7 @@ public class AuthenticationController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestBody User user){
+        user.setLastLoginTime(LocalDateTime.now());
         return new ResponseEntity<>(authenticationService.signInAndReturnJWT(user), HttpStatus.OK);
     }
 

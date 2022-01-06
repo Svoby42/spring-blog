@@ -2,6 +2,7 @@ package com.example.springblog.services;
 
 import com.example.springblog.entities.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IUserService {
@@ -13,6 +14,12 @@ public interface IUserService {
     void makeAdmin(String username);
 
     void makeEditor(String username);
+
+    void makeUser(String username);         //used for revoking posting rights
+
+    List<User> getAllUsers();
+
+    void deleteUser(String username);
 
 //    void updateUserRights(String username, boolean canPost);
 

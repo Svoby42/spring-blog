@@ -1,7 +1,11 @@
 package com.example.springblog.controllers;
 
 import com.example.springblog.entities.Article;
+import com.example.springblog.entities.User;
 import com.example.springblog.services.ArticleService;
+import com.example.springblog.services.AuthenticationService;
+import com.example.springblog.services.IArticleService;
+import com.example.springblog.services.IAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class ArticleController {
 
     @Autowired
-    private ArticleService articleService;
+    private IArticleService articleService;
+
+    @Autowired
+    private IAuthenticationService authenticationService;
 
     @GetMapping
     public ResponseEntity<?> getAllArticles(){
@@ -22,7 +29,7 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<?> saveArticle(@RequestBody Article article){
         if(articleService.findArticleByTitle(article.getTitle()).isPresent()){
-            return new ResponseEntity<>("Článek se stejným názvem již existuje", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Article with the title already exists", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(articleService.saveArticle(article), HttpStatus.CREATED);
     }
@@ -34,8 +41,14 @@ public class ArticleController {
 
     @DeleteMapping("/{articleId}")
     public ResponseEntity<?> deleteArticle(@PathVariable Long articleId){
-        articleService.deleteArticle(articleId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        User signedInUser = authenticationService.getSignedInUser();
+        User articleAuthor = articleService.findAuthorOfArticle(articleId);
+
+        if(signedInUser.getId() == articleAuthor.getId()){
+            articleService.deleteArticle(articleId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,24 @@ public class UserService implements  IUserService{
     @Transactional
     public void makeEditor(String username) {
         userRepository.updateUserRole(username, Role.EDITOR);
+    }
+
+    @Override
+    @Transactional
+    public void makeUser(String username) {
+        userRepository.updateUserRole(username, Role.USER);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUser(String username) {
+        if(userRepository.findByUsername(username).isPresent()){
+            userRepository.deleteByUsername(username);
+        }
     }
 
 //    @Override

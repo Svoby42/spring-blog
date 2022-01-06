@@ -55,12 +55,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
         http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //každý požadavek bude muset být autentikován, stav se neukládá
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //each http request must be authenticated
 
         http.authorizeRequests()
                 .antMatchers("/api/authentication/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/articles").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/articles").hasRole(Role.EDITOR.name())
+                .antMatchers( "/api/articles/**").hasAnyRole(Role.EDITOR.name(), Role.ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/api/users").hasRole(Role.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/api/users/**").hasRole(Role.ADMIN.name())
                 .antMatchers("/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
                 .anyRequest().authenticated();
 

@@ -26,6 +26,9 @@ public class User {
     @Column(name = "create_time", nullable = false)
     private LocalDateTime createTime;
 
+    @Column(name = "last_login")
+    private LocalDateTime lastLoginTime;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;

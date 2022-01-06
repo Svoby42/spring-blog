@@ -8,7 +8,11 @@ import java.util.Optional;
 
 public interface IArticleService {
 
+    Optional<Article> findArticleById(Long id);
+
     Optional<Article> findArticleByTitle(String title);
+
+    User findAuthorOfArticle(Long articleId);
 
     Article saveArticle(Article article);
 
@@ -16,7 +20,7 @@ public interface IArticleService {
 
     List<Article> findAllArticles();
 
-    List<Article> findAllArticlesOfUser(Long userId);
+    List<Article> findAllArticlesOfUser(String username);
 
     List<Article> findAllArticlesOfSignedInUser();
 
