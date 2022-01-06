@@ -23,7 +23,7 @@ public class InternalApiController {
     }
 
     @PutMapping("/make-editor/{username}")
-    public ResponseEntity<?> makeEditor(@PathVariable String username, @RequestBody boolean canPost){
+    public ResponseEntity<?> makeEditor(@PathVariable String username){
         userService.makeEditor(username);
 
         return new ResponseEntity<>(HttpStatus.OK);

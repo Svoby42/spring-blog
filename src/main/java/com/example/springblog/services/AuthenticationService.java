@@ -1,9 +1,9 @@
 package com.example.springblog.services;
 
 import com.example.springblog.entities.User;
+import com.example.springblog.repositories.UserRepository;
 import com.example.springblog.security.UserPrincipal;
 import com.example.springblog.security.jwt.IJwtProvider;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,9 +17,12 @@ public class AuthenticationService implements IAuthenticationService{
 
     private final IJwtProvider jwtProvider;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, IJwtProvider jwtProvider) {
+    private final UserRepository userRepository;
+
+    public AuthenticationService(AuthenticationManager authenticationManager, IJwtProvider jwtProvider, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,12 +42,11 @@ public class AuthenticationService implements IAuthenticationService{
 
     @Override
     public User getSignedInUser(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).get();
 
-        UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
-        User signedInUser = userPrincipal.getUser();
-
-        return signedInUser;
+        return user;
     }
 
 }

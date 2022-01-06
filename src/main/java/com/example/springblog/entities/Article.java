@@ -19,7 +19,7 @@ public class Article {
     @Column(name = "title", unique = true, nullable = false, length = 100)
     private String title;
 
-    @Column(name = "topic_content", nullable = false, length = 10000)
+    @Column(name = "topic_content", length = 10000)             //is nullable
     private String topic_content;
 
     @Column(name = "create_time", nullable = false)

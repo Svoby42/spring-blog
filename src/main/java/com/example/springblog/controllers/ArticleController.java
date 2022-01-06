@@ -21,6 +21,9 @@ public class ArticleController {
 
     @PostMapping
     public ResponseEntity<?> saveArticle(@RequestBody Article article){
+        if(articleService.findArticleByTitle(article.getTitle()).isPresent()){
+            return new ResponseEntity<>("Článek se stejným názvem již existuje", HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(articleService.saveArticle(article), HttpStatus.CREATED);
     }
 

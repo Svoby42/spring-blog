@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArticleService implements IArticleService{
@@ -27,9 +28,8 @@ public class ArticleService implements IArticleService{
 
     @Override
     public Article saveArticle(Article article) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username).get();
+        User user = this.authenticationService.getSignedInUser();
+        System.out.println(user.getUsername());
 
         article.setCreateTime(LocalDateTime.now());
         article.setUser(user);
@@ -39,6 +39,11 @@ public class ArticleService implements IArticleService{
     @Override
     public void deleteArticle(Long id) {
         articleRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Article> findArticleByTitle(String title){
+        return articleRepository.findByTitle(title);
     }
 
     @Override
