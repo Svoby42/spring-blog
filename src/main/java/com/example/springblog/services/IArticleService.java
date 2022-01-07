@@ -16,6 +16,8 @@ public interface IArticleService {
 
     Article saveArticle(Article article);
 
+    Article updateArticle(Article article);
+
     void deleteArticle(Long id);
 
     void deleteAllArticlesOfUser(String username);

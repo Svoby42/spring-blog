@@ -34,6 +34,14 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
+    public Article updateArticle(Article article) {
+        Article editedArticle = articleRepository.findById(article.getId()).get();
+        editedArticle.setTitle(article.getTitle());
+        editedArticle.setContent(article.getContent());
+        return articleRepository.save(editedArticle);
+    }
+
+    @Override
     public void deleteArticle(Long id) {
         articleRepository.deleteById(id);
     }

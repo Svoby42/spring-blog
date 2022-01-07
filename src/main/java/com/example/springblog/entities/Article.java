@@ -12,14 +12,15 @@ import java.time.LocalDateTime;
 public class Article {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_sequence_generator")
+    @SequenceGenerator(name = "article_sequence_generator", sequenceName = "article_sequence", initialValue = 1, allocationSize = 1)
     private long id;
 
     @Column(name = "title", unique = true, nullable = false, length = 100)
     private String title;
 
-    @Column(name = "topic_content", length = 10000)             //is nullable
-    private String topic_content;
+    @Column(name = "content", length = 10000)             //is nullable
+    private String content;
 
     @Column(name = "create_time", nullable = false)
     private LocalDateTime create_time;
