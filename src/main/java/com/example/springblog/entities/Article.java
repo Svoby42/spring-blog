@@ -1,7 +1,10 @@
 package com.example.springblog.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -10,6 +13,9 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "articles")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Article {
 
     @Id

@@ -1,6 +1,7 @@
 package com.example.springblog.controllers;
 
 import com.example.springblog.entities.Article;
+import com.example.springblog.entities.Role;
 import com.example.springblog.entities.User;
 import com.example.springblog.services.IArticleService;
 import com.example.springblog.services.IAuthenticationService;
@@ -26,9 +27,10 @@ public class ArticleController {
 
     @PostMapping
     public ResponseEntity<?> saveArticle(@RequestBody Article article){
-        if(articleService.findArticleByTitle(article.getTitle()).isPresent()){
+        if(articleService.findArticleByTitle(article.getTitle()).isPresent()) {
             return new ResponseEntity<>("Article with the title already exists", HttpStatus.CONFLICT);
         }
+
         return new ResponseEntity<>(articleService.saveArticle(article), HttpStatus.CREATED);
     }
 

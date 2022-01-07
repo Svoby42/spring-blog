@@ -1,5 +1,7 @@
 package com.example.springblog.security.jwt;
 
+import com.example.springblog.entities.Role;
+import com.example.springblog.entities.User;
 import com.example.springblog.security.SecurityUtils;
 import com.example.springblog.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
@@ -103,4 +105,5 @@ public class JwtProvider implements IJwtProvider{
                 .getBody();
 
     }
+
 }
