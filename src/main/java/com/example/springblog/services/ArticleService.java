@@ -38,6 +38,7 @@ public class ArticleService implements IArticleService{
         Article editedArticle = articleRepository.findById(article.getId()).get();
         editedArticle.setTitle(article.getTitle());
         editedArticle.setContent(article.getContent());
+        editedArticle.setEdit_time(LocalDateTime.now());
         return articleRepository.save(editedArticle);
     }
 

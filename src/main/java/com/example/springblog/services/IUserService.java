@@ -9,6 +9,8 @@ public interface IUserService {
 
     User saveUser(User user);
 
+    User updateUser(User user);
+
     Optional<User> findByUsername(String username);
 
     void makeAdmin(String username);
@@ -22,6 +24,7 @@ public interface IUserService {
     void deleteUser(String username);
 
     void updateLastLogin(String username);
+
 
 //    void updateUserRights(String username, boolean canPost);
 

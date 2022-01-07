@@ -25,6 +25,9 @@ public class Article {
     @Column(name = "create_time", nullable = false)
     private LocalDateTime create_time;
 
+    @Column(name = "edit_time")
+    private LocalDateTime edit_time;
+
     @Column(name = "author_name")
     private String author_name;
 
