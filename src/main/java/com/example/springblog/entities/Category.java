@@ -22,10 +22,10 @@ public class Category {
     private String description;
 
     @Column(name = "create_time", nullable = false)
-    private LocalDateTime createTime;
+    private LocalDateTime create_time;
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Article> articleList;
+    private List<Article> article_list;
 
 
 }

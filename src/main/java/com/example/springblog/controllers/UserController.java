@@ -1,10 +1,7 @@
 package com.example.springblog.controllers;
 
-import com.example.springblog.entities.Article;
-import com.example.springblog.services.ArticleService;
 import com.example.springblog.services.IArticleService;
 import com.example.springblog.services.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

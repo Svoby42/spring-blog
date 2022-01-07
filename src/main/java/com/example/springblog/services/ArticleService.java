@@ -27,8 +27,8 @@ public class ArticleService implements IArticleService{
     @Override
     public Article saveArticle(Article article) {
         User user = this.authenticationService.getSignedInUser();
-        article.setCreateTime(LocalDateTime.now());
-        article.setAuthorName(user.getName());
+        article.setCreate_time(LocalDateTime.now());
+        article.setAuthor_name(user.getName());
         article.setUser(user);
         return articleRepository.save(article);
     }

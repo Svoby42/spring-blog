@@ -3,14 +3,10 @@ package com.example.springblog.controllers;
 import com.example.springblog.entities.Role;
 import com.example.springblog.entities.User;
 import com.example.springblog.repositories.UserRepository;
-import com.example.springblog.services.AuthenticationService;
 import com.example.springblog.services.IAuthenticationService;
-import com.example.springblog.services.IUserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,13 +19,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,7 +48,7 @@ class AuthenticationControllerTest {
         user.setName("Petr");
         user.setUsername("petan410");
         user.setPassword("konak410");
-        user.setCreateTime(LocalDateTime.now());
+        user.setCreate_time(LocalDateTime.now());
         user.setRole(Role.USER);
 
         when(userRepository.save(user)).thenReturn(user);
@@ -80,7 +72,7 @@ class AuthenticationControllerTest {
         user.setName("Petr");
         user.setUsername("petan410");
         user.setPassword("konak410");
-        user.setCreateTime(LocalDateTime.now());
+        user.setCreate_time(LocalDateTime.now());
         user.setRole(Role.USER);
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));

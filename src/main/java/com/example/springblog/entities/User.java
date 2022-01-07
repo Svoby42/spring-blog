@@ -1,9 +1,6 @@
 package com.example.springblog.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,10 +25,10 @@ public class User {
     private String name;
 
     @Column(name = "create_time", nullable = false)
-    private LocalDateTime createTime;
+    private LocalDateTime create_time;
 
     @Column(name = "last_login")
-    private LocalDateTime lastLoginTime;
+    private LocalDateTime last_login;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
@@ -44,6 +41,6 @@ public class User {
     private String token;
 
     @OneToMany(mappedBy = "user" , cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<Article> userArticleList;
+    private List<Article> user_articles;
 
 }

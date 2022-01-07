@@ -1,7 +1,6 @@
 package com.example.springblog.controllers;
 
 import com.example.springblog.entities.Article;
-import com.example.springblog.entities.Role;
 import com.example.springblog.entities.User;
 import com.example.springblog.services.IArticleService;
 import com.example.springblog.services.IAuthenticationService;

@@ -1,12 +1,9 @@
 package com.example.springblog.security.jwt;
 
-import com.example.springblog.entities.Role;
-import com.example.springblog.entities.User;
 import com.example.springblog.security.SecurityUtils;
 import com.example.springblog.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
