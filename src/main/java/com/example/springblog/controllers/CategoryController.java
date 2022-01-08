@@ -18,10 +18,17 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    @GetMapping("/{title}")
-    public ResponseEntity<?> getCategory(@PathVariable String title){
+    @GetMapping
+    public ResponseEntity<?> getAllCategories(){
         return new ResponseEntity<>(categoryService.findAllCategories(), HttpStatus.OK);
     }
+
+    @GetMapping("/{title}")
+    public ResponseEntity<?> getCategory(@PathVariable String title){
+        return new ResponseEntity<>(categoryService.findCategoryByTitle(title), HttpStatus.OK);
+    }
+
+
 
     @PutMapping("/{title}")
     public ResponseEntity<?> updateCategory(@PathVariable String title, @RequestBody Category category){
