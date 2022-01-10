@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
@@ -35,7 +37,13 @@ public class CategoryController {
 
     @PutMapping("/{slug}")
     public ResponseEntity<?> updateCategory(@PathVariable String slug, @RequestBody Category category){
-        return new ResponseEntity<>(categoryService.saveCategory(category), HttpStatus.OK);
+        Optional<Category> toBeEdited = categoryService.findCategoryBySlug(slug);
+        if(toBeEdited.isPresent()){
+            category.setSlug(slug);
+            return new ResponseEntity<>(categoryService.updateCategory(category), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{slug}")

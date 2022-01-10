@@ -46,6 +46,7 @@ public class CategoryService implements ICategoryService{
     @Override
     public Category updateCategory(Category category) {
         Category originalCategory = categoryRepository.findBySlug(category.getSlug()).get();
+        category.setSlug(originalCategory.getSlug());
         category.setId(originalCategory.getId());
         category.setCreate_time(originalCategory.getCreate_time());
         category.setArticle_list(originalCategory.getArticle_list());
