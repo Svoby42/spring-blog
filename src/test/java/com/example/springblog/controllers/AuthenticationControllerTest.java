@@ -45,7 +45,7 @@ class AuthenticationControllerTest {
     @Test
     public void signUp_Success() throws Exception{
         User user = new  User();
-        user.setId(UUID.randomUUID());
+        user.setId(String.valueOf(UUID.randomUUID()));
         user.setName("Petr");
         user.setUsername("petan410");
         user.setPassword("konak410");
@@ -69,7 +69,7 @@ class AuthenticationControllerTest {
     @Test
     public void signInAndHasToken_Success() throws Exception{
         User user = new  User();
-        user.setId(UUID.randomUUID());
+        user.setId(String.valueOf(UUID.randomUUID()));
         user.setName("Petr");
         user.setUsername("petan410");
         user.setPassword("konak410");

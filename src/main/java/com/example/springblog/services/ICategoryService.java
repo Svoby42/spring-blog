@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface ICategoryService {
 
-    Optional<Category> findCategoryById(UUID id);
+    Optional<Category> findCategoryById(String id);
 
     Optional<Category> findCategoryByTitle(String title);
 

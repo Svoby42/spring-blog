@@ -36,7 +36,7 @@ public class ArticleService implements IArticleService{
 
     @Override
     public Article updateArticle(Article article) {
-        Article editedArticle = articleRepository.findById(article.getId()).get();
+        Article editedArticle = articleRepository.findBySlug(article.getSlug()).get();
         editedArticle.setTitle(article.getTitle());
         editedArticle.setContent(article.getContent());
         editedArticle.setEdit_time(LocalDateTime.now());
@@ -44,8 +44,8 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public void deleteArticle(UUID id) {
-        articleRepository.deleteById(id);
+    public void deleteArticle(String id) {
+        articleRepository.deleteById(UUID.fromString(id));
     }
 
     @Override
@@ -69,8 +69,8 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public User findAuthorOfArticle(UUID id) {
-        return articleRepository.findById(id).get().getUser();
+    public User findAuthorOfArticle(String id) {
+        return articleRepository.findById(UUID.fromString(id)).get().getUser();
     }
 
     @Override

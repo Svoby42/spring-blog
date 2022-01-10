@@ -15,13 +15,13 @@ public interface IArticleService {
 
     Optional<Article> findArticleBySlug(String slug);
 
-    User findAuthorOfArticle(UUID articleId);
+    User findAuthorOfArticle(String articleId);
 
     Article saveArticle(Article article);
 
     Article updateArticle(Article article);
 
-    void deleteArticle(UUID id);
+    void deleteArticle(String id);
 
     void deleteAllArticlesOfUser(String username);
 

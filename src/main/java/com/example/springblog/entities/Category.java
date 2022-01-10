@@ -17,7 +17,7 @@ public class Category {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(columnDefinition = "VARCHAR(255)")
-    private UUID id;
+    private String id;
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;

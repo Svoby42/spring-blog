@@ -35,9 +35,11 @@ public class UserService implements IUserService{
     @Override
     public User updateUser(User user) {
         User originalUser = userRepository.findByUsername(user.getUsername()).get();
+        user.setId(originalUser.getId());
         user.setRole(originalUser.getRole());                                               //making sure these properties are unchangeable, especially the role
         user.setCreate_time(originalUser.getCreate_time());                                 //allowing users to change their role would pose a huge security risk, so it is cross-checked with the record in the database
         user.setLast_login(originalUser.getLast_login());
+        user.setUser_articles(originalUser.getUser_articles());
 
         if(user.getPassword() == null){
             user.setPassword(originalUser.getPassword());

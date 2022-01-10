@@ -43,12 +43,15 @@ public class UserController {
     @PutMapping("/{username}")
     public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user){
         User signedInUser = authenticationService.getSignedInUser();
-        User updatingUser = user;
 
-        if(signedInUser.getUsername().equals(updatingUser.getUsername()) ||  signedInUser.getRole().name().equals(Role.ADMIN.name())){
+        if(signedInUser.getUsername().equals(username) ||  signedInUser.getRole().name().equals(Role.ADMIN.name())){
             Optional<User> userOptional = userService.findByUsername(username);
             if(userOptional.isPresent()){
+                user.setUsername(userOptional.get().getUsername());
                 return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

@@ -62,7 +62,7 @@ public class JwtProvider implements IJwtProvider{
         UserDetails userDetails = UserPrincipal.builder()
                 .username(username)
                 .authoritySet(authoritySet)
-                .id(UUID.fromString(userId))
+                .id(String.valueOf(userId))
                 .build();
 
         if(username == null){

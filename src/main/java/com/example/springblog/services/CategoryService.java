@@ -22,10 +22,9 @@ public class CategoryService implements ICategoryService{
         this.categoryRepository = categoryRepository;
     }
 
-
     @Override
-    public Optional<Category> findCategoryById(UUID id) {
-        return categoryRepository.findById(id);
+    public Optional<Category> findCategoryById(String id) {
+        return categoryRepository.findById(UUID.fromString(id));
     }
 
     @Override

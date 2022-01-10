@@ -51,7 +51,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{articleUUID}")
-    public ResponseEntity<?> deleteArticle(@PathVariable UUID articleUUID){
+    public ResponseEntity<?> deleteArticle(@PathVariable String articleUUID){
         User signedInUser = authenticationService.getSignedInUser();
         User articleAuthor = articleService.findAuthorOfArticle(articleUUID);
 
