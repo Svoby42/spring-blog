@@ -3,6 +3,7 @@ package com.example.springblog.security.jwt;
 import com.example.springblog.security.SecurityUtils;
 import com.example.springblog.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +46,7 @@ public class JwtProvider implements IJwtProvider{
     }
 
     @Override
-    public Authentication getAuthentication(HttpServletRequest request) {
+    public Authentication getAuthentication(HttpServletRequest request) throws Exception {
 
         Claims claims = extractClaims(request);
         if(claims == null){
@@ -74,7 +75,7 @@ public class JwtProvider implements IJwtProvider{
     }
 
     @Override
-    public boolean validateToken(HttpServletRequest request) {
+    public boolean validateToken(HttpServletRequest request) throws Exception {
         Claims claims = extractClaims(request);
         if(claims == null){
             return false;
@@ -85,18 +86,22 @@ public class JwtProvider implements IJwtProvider{
         return true;
     }
 
-    private Claims extractClaims(HttpServletRequest request) {
-        String token = SecurityUtils.extractAuthTokenFromRequest(request);
+    private Claims extractClaims(HttpServletRequest request) throws Exception {
+        try{
+            String token = SecurityUtils.extractAuthTokenFromRequest(request);
 
-        if(token == null){
-            return null;
+            if(token == null){
+                return null;
+            }
+
+            return Jwts.parser()
+                    .setSigningKey(JWT_SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
+
+        }catch (ExpiredJwtException e){
+            throw new Exception("Token vypršel!");
         }
-
-        return Jwts.parser()
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(token)
-                .getBody();
-
     }
 
 }

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface IJwtProvider {
 
     String generateToken(UserPrincipal userPrincipal);
-    Authentication getAuthentication(HttpServletRequest request);
-    boolean validateToken(HttpServletRequest request);
+    Authentication getAuthentication(HttpServletRequest request) throws Exception;
+    boolean validateToken(HttpServletRequest request) throws Exception;
 
 }

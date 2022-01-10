@@ -1,6 +1,7 @@
 package com.example.springblog.security.jwt;
 
 import io.jsonwebtoken.MalformedJwtException;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         return request.getRequestURI().startsWith("/api/internal");
     }
 
+    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, MalformedJwtException {
         Authentication authentication = jwtProvider.getAuthentication(request);
