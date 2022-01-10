@@ -25,6 +25,9 @@ public class Category {
     @Column(name = "description", nullable = false, length = 100)
     private String description;
 
+    @Column(name = "slug", nullable = false, length = 100)
+    private String slug;
+
     @Column(name = "create_time", nullable = false)
     private LocalDateTime create_time;
 

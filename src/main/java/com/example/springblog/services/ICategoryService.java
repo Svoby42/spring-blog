@@ -11,11 +11,13 @@ public interface ICategoryService {
 
     Optional<Category> findCategoryById(String id);
 
-    Optional<Category> findCategoryByTitle(String title);
+    Optional<Category> findCategoryBySlug(String slug);
 
     void deleteCategory(String title);
 
     Category saveCategory(Category category);
+
+    Category updateCategory(Category category);
 
     List<Category> findAllCategories();
 

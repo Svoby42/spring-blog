@@ -23,21 +23,24 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.findAllCategories(), HttpStatus.OK);
     }
 
-    @GetMapping("/{title}")
-    public ResponseEntity<?> getCategory(@PathVariable String title){
-        return new ResponseEntity<>(categoryService.findCategoryByTitle(title), HttpStatus.OK);
+    @GetMapping("/{slug}")
+    public ResponseEntity<?> getCategory(@PathVariable String slug){
+        return new ResponseEntity<>(categoryService.findCategoryBySlug(slug), HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<?> createCategory(@RequestBody Category category){
+        return new ResponseEntity<>(categoryService.saveCategory(category), HttpStatus.CREATED);
+    }
 
-
-    @PutMapping("/{title}")
-    public ResponseEntity<?> updateCategory(@PathVariable String title, @RequestBody Category category){
+    @PutMapping("/{slug}")
+    public ResponseEntity<?> updateCategory(@PathVariable String slug, @RequestBody Category category){
         return new ResponseEntity<>(categoryService.saveCategory(category), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{title}")
-    public ResponseEntity<?> deleteCategory(@PathVariable String title){
-        categoryService.deleteCategory(title);
+    @DeleteMapping("/{slug}")
+    public ResponseEntity<?> deleteCategory(@PathVariable String slug){
+        categoryService.deleteCategory(slug);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -28,18 +28,28 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public Optional<Category> findCategoryByTitle(String title) {
-        return categoryRepository.findByTitle(title);
+    public Optional<Category> findCategoryBySlug(String slug) {
+        return categoryRepository.findBySlug(slug);
     }
 
     @Override
-    public void deleteCategory(String title) {
-        categoryRepository.deleteByTitle(title);
+    public void deleteCategory(String slug) {
+        categoryRepository.deleteBySlug(slug);
     }
 
     @Override
     public Category saveCategory(Category category) {
         category.setCreate_time(LocalDateTime.now());
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public Category updateCategory(Category category) {
+        Category originalCategory = categoryRepository.findBySlug(category.getSlug()).get();
+        category.setId(originalCategory.getId());
+        category.setCreate_time(originalCategory.getCreate_time());
+        category.setArticle_list(originalCategory.getArticle_list());
+
         return categoryRepository.save(category);
     }
 
