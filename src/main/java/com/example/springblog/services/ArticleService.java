@@ -54,8 +54,8 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public Optional<Article> findArticleById(UUID id) {
-        return articleRepository.findById(id);
+    public Optional<Article> findArticleById(String id) {
+        return articleRepository.findById(UUID.fromString(id));
     }
 
     @Override

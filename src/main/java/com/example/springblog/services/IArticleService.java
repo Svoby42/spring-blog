@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface IArticleService {
 
-    Optional<Article> findArticleById(UUID id);
+    Optional<Article> findArticleById(String id);
 
     Optional<Article> findArticleByTitle(String title);
 
