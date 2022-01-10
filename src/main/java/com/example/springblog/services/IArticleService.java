@@ -5,20 +5,23 @@ import com.example.springblog.entities.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IArticleService {
 
-    Optional<Article> findArticleById(Long id);
+    Optional<Article> findArticleById(UUID id);
 
     Optional<Article> findArticleByTitle(String title);
 
-    User findAuthorOfArticle(Long articleId);
+    Optional<Article> findArticleBySlug(String slug);
+
+    User findAuthorOfArticle(UUID articleId);
 
     Article saveArticle(Article article);
 
     Article updateArticle(Article article);
 
-    void deleteArticle(Long id);
+    void deleteArticle(UUID id);
 
     void deleteAllArticlesOfUser(String username);
 

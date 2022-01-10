@@ -1,10 +1,12 @@
 package com.example.springblog.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -12,9 +14,9 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence_generator")
-    @SequenceGenerator(name = "user_sequence_generator", sequenceName = "user_sequence", initialValue = 1, allocationSize = 1)
-    private long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    private UUID id;
 
     @Column(name = "username", unique = true, nullable = false, length = 100)
     private String username;

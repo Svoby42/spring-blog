@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ArticleService implements IArticleService{
@@ -43,7 +44,7 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public void deleteArticle(Long id) {
+    public void deleteArticle(UUID id) {
         articleRepository.deleteById(id);
     }
 
@@ -53,7 +54,7 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public Optional<Article> findArticleById(Long id) {
+    public Optional<Article> findArticleById(UUID id) {
         return articleRepository.findById(id);
     }
 
@@ -63,7 +64,12 @@ public class ArticleService implements IArticleService{
     }
 
     @Override
-    public User findAuthorOfArticle(Long id) {
+    public Optional<Article> findArticleBySlug(String slug) {
+        return articleRepository.findBySlug(slug);
+    }
+
+    @Override
+    public User findAuthorOfArticle(UUID id) {
         return articleRepository.findById(id).get().getUser();
     }
 

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -26,9 +27,9 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.findAllArticles(), HttpStatus.OK);
     }
 
-    @GetMapping("/{articleId}")
-    public ResponseEntity<?> getArticle(@PathVariable Long articleId){
-        Optional<Article> article = articleService.findArticleById(articleId);
+    @GetMapping("/{slug}")
+    public ResponseEntity<?> getArticle(@PathVariable String slug){
+        Optional<Article> article = articleService.findArticleBySlug(slug);
         if(article.isPresent()){
             return new ResponseEntity<>(article.get(), HttpStatus.OK);
         }
@@ -44,13 +45,13 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.saveArticle(article), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{articleId}")
-    public ResponseEntity<?> updateArticle(@PathVariable Long articleId, @RequestBody Article article){
+    @PutMapping("/{slug}")
+    public ResponseEntity<?> updateArticle(@PathVariable UUID articleId, @RequestBody Article article){
         return new ResponseEntity<>(articleService.updateArticle(article), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{articleId}")
-    public ResponseEntity<?> deleteArticle(@PathVariable Long articleId){
+    @DeleteMapping("/{slug}")
+    public ResponseEntity<?> deleteArticle(@PathVariable UUID articleId){
         User signedInUser = authenticationService.getSignedInUser();
         User articleAuthor = articleService.findAuthorOfArticle(articleId);
 
