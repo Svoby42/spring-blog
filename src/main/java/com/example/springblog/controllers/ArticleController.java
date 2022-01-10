@@ -46,17 +46,17 @@ public class ArticleController {
     }
 
     @PutMapping("/{slug}")
-    public ResponseEntity<?> updateArticle(@PathVariable UUID articleId, @RequestBody Article article){
+    public ResponseEntity<?> updateArticle(@PathVariable String slug, @RequestBody Article article){
         return new ResponseEntity<>(articleService.updateArticle(article), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{slug}")
-    public ResponseEntity<?> deleteArticle(@PathVariable UUID articleId){
+    @DeleteMapping("/{articleUUID}")
+    public ResponseEntity<?> deleteArticle(@PathVariable UUID articleUUID){
         User signedInUser = authenticationService.getSignedInUser();
-        User articleAuthor = articleService.findAuthorOfArticle(articleId);
+        User articleAuthor = articleService.findAuthorOfArticle(articleUUID);
 
         if(signedInUser.getId() == articleAuthor.getId()){
-            articleService.deleteArticle(articleId);
+            articleService.deleteArticle(articleUUID);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>("Article is not yours!", HttpStatus.UNAUTHORIZED);

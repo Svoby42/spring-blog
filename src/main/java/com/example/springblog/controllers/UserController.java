@@ -1,12 +1,15 @@
 package com.example.springblog.controllers;
 
+import com.example.springblog.entities.Role;
 import com.example.springblog.entities.User;
 import com.example.springblog.services.IArticleService;
+import com.example.springblog.services.IAuthenticationService;
 import com.example.springblog.services.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -19,9 +22,12 @@ public class UserController {
     final
     IUserService userService;
 
-    public UserController(IArticleService articleService, IUserService userService) {
+    final IAuthenticationService authenticationService;
+
+    public UserController(IArticleService articleService, IUserService userService, IAuthenticationService authenticationService) {
         this.articleService = articleService;
         this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     @GetMapping
@@ -35,12 +41,17 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<?> updateUser(@PathVariable String username){
-        Optional<User> user = userService.findByUsername(username);
-        if(user.isPresent()){
-            return new ResponseEntity<>(userService.updateUser(user.get()), HttpStatus.OK);
+    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user){
+        User signedInUser = authenticationService.getSignedInUser();
+        User updatingUser = user;
+
+        if(signedInUser.getUsername().equals(updatingUser.getUsername()) ||  signedInUser.getRole().name().equals(Role.ADMIN.name())){
+            Optional<User> userOptional = userService.findByUsername(username);
+            if(userOptional.isPresent()){
+                return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+            }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @DeleteMapping("/{username}")

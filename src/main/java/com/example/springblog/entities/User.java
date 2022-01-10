@@ -1,5 +1,6 @@
 package com.example.springblog.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,8 +15,9 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "VARCHAR(255)")
     private UUID id;
 
     @Column(name = "username", unique = true, nullable = false, length = 100)
@@ -43,7 +45,8 @@ public class User {
     @Transient
     private String token;
 
-    @OneToMany(mappedBy = "user" , cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user" , cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Article> user_articles;
 
 }

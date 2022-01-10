@@ -45,7 +45,6 @@ public class AuthenticationService implements IAuthenticationService{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).get();
-
         return user;
     }
 

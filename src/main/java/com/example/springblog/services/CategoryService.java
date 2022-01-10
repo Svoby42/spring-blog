@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CategoryService implements ICategoryService{
@@ -23,7 +24,7 @@ public class CategoryService implements ICategoryService{
 
 
     @Override
-    public Optional<Category> findCategoryById(Long id) {
+    public Optional<Category> findCategoryById(UUID id) {
         return categoryRepository.findById(id);
     }
 

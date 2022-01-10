@@ -13,10 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -56,7 +53,7 @@ public class JwtProvider implements IJwtProvider{
         }
 
         String username = claims.getSubject();
-        Long userId = claims.get("userId", Long.class);
+        String userId = claims.get("userId", String.class);
 
         Set<GrantedAuthority> authoritySet = Arrays.stream(claims.get("roles").toString().split(","))
                 .map(SecurityUtils::convertToAuthority)
@@ -65,7 +62,7 @@ public class JwtProvider implements IJwtProvider{
         UserDetails userDetails = UserPrincipal.builder()
                 .username(username)
                 .authoritySet(authoritySet)
-                .id(userId)
+                .id(UUID.fromString(userId))
                 .build();
 
         if(username == null){

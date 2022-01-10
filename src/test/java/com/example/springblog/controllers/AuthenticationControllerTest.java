@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -44,7 +45,7 @@ class AuthenticationControllerTest {
     @Test
     public void signUp_Success() throws Exception{
         User user = new  User();
-        user.setId(1L);
+        user.setId(UUID.randomUUID());
         user.setName("Petr");
         user.setUsername("petan410");
         user.setPassword("konak410");
@@ -68,7 +69,7 @@ class AuthenticationControllerTest {
     @Test
     public void signInAndHasToken_Success() throws Exception{
         User user = new  User();
-        user.setId(1L);
+        user.setId(UUID.randomUUID());
         user.setName("Petr");
         user.setUsername("petan410");
         user.setPassword("konak410");
