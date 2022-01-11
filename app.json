@@ -1,0 +1,8 @@
+{
+  "name": "spring-blog",
+  "buildpacks": [
+    {
+      "url": "heroku/java"
+    }
+  ]
+}
