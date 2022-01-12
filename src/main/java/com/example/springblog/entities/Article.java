@@ -19,7 +19,7 @@ public class Article {
     @Column(columnDefinition = "VARCHAR(255)")
     private String id;
 
-    @Column(name = "title", unique = true, nullable = false, length = 100)
+    @Column(name = "title", unique = true, length = 100)
     private String title;
 
     @Column(name = "slug", unique = true, nullable = false, length = 100)
@@ -37,12 +37,15 @@ public class Article {
     @Column(name = "author_name")
     private String author_name;
 
+    @Column(name = "category_slug")
+    private String category_slug;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;

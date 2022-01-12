@@ -5,6 +5,7 @@ import com.example.springblog.entities.Category;
 import com.example.springblog.repositories.ArticleRepository;
 import com.example.springblog.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +33,7 @@ public class CategoryService implements ICategoryService{
         return categoryRepository.findBySlug(slug);
     }
 
+    @Transactional
     @Override
     public void deleteCategory(String slug) {
         categoryRepository.deleteBySlug(slug);
@@ -43,6 +45,7 @@ public class CategoryService implements ICategoryService{
         return categoryRepository.save(category);
     }
 
+    @Transactional
     @Override
     public Category updateCategory(Category category) {
         Category originalCategory = categoryRepository.findBySlug(category.getSlug()).get();

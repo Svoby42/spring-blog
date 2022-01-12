@@ -33,6 +33,7 @@ public class UserService implements IUserService{
     }
 
     @Override
+    @Transactional
     public User updateUser(User user) {
         User originalUser = userRepository.findByUsername(user.getUsername()).get();
         user.setId(originalUser.getId());

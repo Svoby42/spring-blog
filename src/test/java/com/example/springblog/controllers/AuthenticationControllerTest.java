@@ -34,7 +34,7 @@ class AuthenticationControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @Mock
     private UserRepository userRepository;

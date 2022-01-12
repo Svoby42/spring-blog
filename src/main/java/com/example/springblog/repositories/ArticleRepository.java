@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public interface ArticleRepository extends JpaRepository<Article, UUID> {
 
+    void deleteBySlug(String slug);
     List<Article> findAllByUser_Username(String username);          //find all articles by username
     List<Article> findAllByUser_Id(Long userId);                    //find all articles by user id
     List<Article> findAllByCategory_Title(String categoryTitle);    //find all articles of a category

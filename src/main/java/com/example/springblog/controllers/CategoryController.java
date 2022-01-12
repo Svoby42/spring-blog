@@ -14,11 +14,14 @@ import java.util.Optional;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    @Autowired
-    private IArticleService articleService;
+    private final IArticleService articleService;
 
-    @Autowired
-    private ICategoryService categoryService;
+    private final ICategoryService categoryService;
+
+    public CategoryController(IArticleService articleService, ICategoryService categoryService) {
+        this.articleService = articleService;
+        this.categoryService = categoryService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllCategories(){

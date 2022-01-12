@@ -1,6 +1,7 @@
 package com.example.springblog.controllers;
 
 import com.example.springblog.entities.Article;
+import com.example.springblog.entities.Role;
 import com.example.springblog.entities.User;
 import com.example.springblog.services.IArticleService;
 import com.example.springblog.services.IAuthenticationService;
@@ -16,11 +17,14 @@ import java.util.UUID;
 @RequestMapping("/api/articles")
 public class ArticleController {
 
-    @Autowired
-    private IArticleService articleService;
+    private final IArticleService articleService;
 
-    @Autowired
-    private IAuthenticationService authenticationService;
+    private final IAuthenticationService authenticationService;
+
+    public ArticleController(IArticleService articleService, IAuthenticationService authenticationService) {
+        this.articleService = articleService;
+        this.authenticationService = authenticationService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllArticles(){
@@ -38,25 +42,38 @@ public class ArticleController {
 
     @PostMapping
     public ResponseEntity<?> saveArticle(@RequestBody Article article){
-        Optional<Article> foundArticle = articleService.findArticleByTitle(article.getTitle());
-        if(foundArticle.isPresent()){
-            return new ResponseEntity<>("Article with the title already exists", HttpStatus.CONFLICT);
+        Optional<Article> foundArticleTitle = articleService.findArticleByTitle(article.getTitle());
+        Optional<Article> foundArticleSlug = articleService.findArticleBySlug(article.getSlug());
+        if(foundArticleTitle.isPresent() || foundArticleSlug.isPresent()){
+            return new ResponseEntity<>("Article with the title/slug already exists", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(articleService.saveArticle(article), HttpStatus.CREATED);
     }
 
     @PutMapping("/{slug}")
     public ResponseEntity<?> updateArticle(@PathVariable String slug, @RequestBody Article article){
-        return new ResponseEntity<>(articleService.updateArticle(article), HttpStatus.OK);
+        User signedInUser = authenticationService.getSignedInUser();
+        User articleOwner = articleService.findArticleBySlug(slug).get().getUser();
+
+        if(signedInUser.getUsername().equals(articleOwner.getUsername()) || signedInUser.getRole().name().equals(Role.ADMIN.name())){
+            Optional<Article> original = articleService.findArticleBySlug(slug);
+            if(original.isPresent()){
+                article.setSlug(slug);
+                article.setUser(articleOwner);
+                return new ResponseEntity<>(articleService.updateArticle(article), HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @DeleteMapping("/{articleUUID}")
-    public ResponseEntity<?> deleteArticle(@PathVariable String articleUUID){
+    @DeleteMapping("/{slug}")
+    public ResponseEntity<?> deleteArticle(@PathVariable String slug){
         User signedInUser = authenticationService.getSignedInUser();
-        User articleAuthor = articleService.findAuthorOfArticle(articleUUID);
+        User articleAuthor = articleService.findAuthorOfArticle(slug);
 
-        if(signedInUser.getId() == articleAuthor.getId()){
-            articleService.deleteArticle(articleUUID);
+        if(signedInUser.getId().equals(articleAuthor.getId()) || signedInUser.getRole().equals(Role.ADMIN) ){
+            articleService.deleteArticle(slug);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>("Article is not yours!", HttpStatus.UNAUTHORIZED);
