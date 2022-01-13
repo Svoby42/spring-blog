@@ -76,6 +76,7 @@ public class ArticleService implements IArticleService{
         articleRepository.deleteBySlug(slug);
     }
 
+    @Transactional
     @Override
     public void deleteAllArticlesOfUser(String username){
         this.findAllArticlesOfUser(username).forEach(article -> this.deleteArticle(article.getId()));
