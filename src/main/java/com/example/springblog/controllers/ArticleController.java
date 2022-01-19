@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,14 +70,18 @@ public class ArticleController {
 
     @DeleteMapping("/{slug}")
     public ResponseEntity<?> deleteArticle(@PathVariable String slug){
-        User signedInUser = authenticationService.getSignedInUser();
-        User articleAuthor = articleService.findAuthorOfArticle(slug);
+        try{
+            User signedInUser = authenticationService.getSignedInUser();
+            User articleAuthor = articleService.findAuthorOfArticle(slug);
 
-        if(signedInUser.getId().equals(articleAuthor.getId()) || signedInUser.getRole().equals(Role.ADMIN) ){
-            articleService.deleteArticle(slug);
-            return new ResponseEntity<>(HttpStatus.OK);
+            if(signedInUser.getId().equals(articleAuthor.getId()) || signedInUser.getRole().equals(Role.ADMIN) ){
+                articleService.deleteArticle(slug);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Article is not yours!", HttpStatus.UNAUTHORIZED);
+        } catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("Article is not yours!", HttpStatus.UNAUTHORIZED);
     }
 
 

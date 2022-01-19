@@ -30,7 +30,11 @@ public class CategoryController {
 
     @GetMapping("/{slug}")
     public ResponseEntity<?> getCategory(@PathVariable String slug){
-        return new ResponseEntity<>(categoryService.findCategoryBySlug(slug), HttpStatus.OK);
+        Optional<Category> category = categoryService.findCategoryBySlug(slug);
+        if(category.isPresent()){
+            return new ResponseEntity<>(category.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
