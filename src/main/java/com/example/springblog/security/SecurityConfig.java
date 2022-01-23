@@ -68,6 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
                 .anyRequest().authenticated();
 
+        http.requiresChannel()
+                        .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                                .requiresSecure();
+
         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(internalApiAuthenticationFilter(), JwtAuthorizationFilter.class);
     }
