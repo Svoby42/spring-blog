@@ -45,8 +45,12 @@ public class AuthenticationController {
     public ResponseEntity<?> signIn(@RequestBody User user){
         Optional<User> signedInUser = userService.findByUsername(user.getUsername());
 
+        System.out.println(signedInUser.get().getUsername());
+        System.out.println(user.getPassword());
+
         if(signedInUser.isPresent()){
             User fullUser = signedInUser.get();
+            System.out.println(fullUser.getPassword() + " " + user.getPassword());
             if(BCrypt.checkpw(user.getPassword(), fullUser.getPassword())){
                 userService.updateLastLogin(fullUser.getUsername());
                 return new ResponseEntity<>(authenticationService.signInAndReturnJWT(user), HttpStatus.OK);
