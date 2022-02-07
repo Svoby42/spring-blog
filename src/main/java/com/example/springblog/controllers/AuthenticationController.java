@@ -3,6 +3,8 @@ package com.example.springblog.controllers;
 import com.example.springblog.entities.User;
 import com.example.springblog.services.IAuthenticationService;
 import com.example.springblog.services.IUserService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -26,6 +30,8 @@ public class AuthenticationController {
 
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${app.cookie.secure}")
+    private boolean secure;
 
     public AuthenticationController(IAuthenticationService authenticationService, IUserService userService, PasswordEncoder passwordEncoder) {
         this.authenticationService = authenticationService;
@@ -42,18 +48,20 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/sign-in", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> signIn(@RequestBody User user){
+    public ResponseEntity<?> signIn(@RequestBody User user, HttpServletResponse response){
         Optional<User> signedInUser = userService.findByUsername(user.getUsername());
-
-        System.out.println(signedInUser.get().getUsername());
-        System.out.println(user.getPassword());
 
         if(signedInUser.isPresent()){
             User fullUser = signedInUser.get();
-            System.out.println(fullUser.getPassword() + " " + user.getPassword());
             if(BCrypt.checkpw(user.getPassword(), fullUser.getPassword())){
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(200));
                 userService.updateLastLogin(fullUser.getUsername());
-                return new ResponseEntity<>(authenticationService.signInAndReturnJWT(user), HttpStatus.OK);
+                Cookie cookie = new Cookie("currentUser", authenticationService.signInAndReturnJWT(user).getToken());
+                cookie.setHttpOnly(true);
+                cookie.setSecure(secure);
+                response.addCookie(cookie);
+                return new ResponseEntity<>(Collections.singletonMap("token", authenticationService.signInAndReturnJWT(user).getToken()), HttpStatus.OK);
             }
             return new ResponseEntity<>(Collections.singletonMap("message", "bad credentials"), HttpStatus.UNAUTHORIZED);
         }
